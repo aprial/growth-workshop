@@ -44,12 +44,13 @@ class Meal(Base):
     def forge(self,session,basetime,date,**kwargs):
         self.Type = random.choice(['japanese','chinese','french','german','italian','mexican','vietnamese'])
         self.price = random.randint(5, 15)
-	@classmethod
-	def ntimes(self, i, time):
-		return 1*pow(1.001, i)
-
-	variance = ntimes
-
+        
+	period = DAY
+    @classmethod
+    def ntimes(self, i, time):
+    	return 1*pow(1.005, i)
+    
+    variance = ntimes
 
 """
 Events on a site are for likes/favorites and buying.
@@ -68,6 +69,13 @@ class Event(Base):
          self.Type = random.choice(['like','bought'])
          self.User_Id = get_random(Users,session=session,basetime=basetime)
          self.Meal_Id = get_random(Meal,session=session,basetime=basetime)
+         
+    period = DAY
+    @classmethod
+    def ntimes(self, i, time):
+    	return 1*pow(1.001, i)
+    
+    variance = ntimes
 
 
 def main(forjar):
