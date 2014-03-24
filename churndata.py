@@ -37,16 +37,16 @@ For brevity, the types will be restricted to categories.
 class Meal(Base):
 	__tablename__ = 'Meal'
 	Type = Column(String(40))
-    Meal_Id = Column(Integer,primary_key = True)
-    price = Column(Integer)
+	Meal_Id = Column(Integer,primary_key = True)
+	price = Column(Integer)
 	def forge(self,session,basetime,date,**kwargs):
 		self.Type = random.choice(['japanese','chinese','french','german','italian','mexican','vietnamese'])
         self.price = random.randint(5, 15)
-    @classmethod
-    def ntimes(self, i, time):
-        return 1*pow(1.001, i)
+	@classmethod
+	def ntimes(self, i, time):
+		return 1*pow(1.001, i)
 
-    variance = ntimes
+	variance = ntimes
 
 
 """
@@ -54,13 +54,13 @@ Events on a site are for likes/favorites and buying.
 """
 class Event(Base):
 	__tablename__ = 'Events'
-    date  = Column(DateTime, default=datetime.datetime.utcnow)
+	date  = Column(DateTime, default=datetime.datetime.utcnow)
 	User_ID = Column(Integer, ForeignKey("Users.User_ID"), nullable=False)
 	Meal_Id = Column(Integer,ForeignKey("Meal.Meal_Id"),nullable = False)
 	Type = Column(String(40))
 
 
 	def forge(self,session,basetime,date,**kwargs):
-		 self.Type = random.choice(['like','bought'])
-         self.User_ID = get_random(Users,session=session,basetime=basetime)
-         self.Meal_Id = get_random(Meal,session=session,basetime=basetime)
+		self.Type = random.choice(['like','bought'])
+		self.User_ID = get_random(Users,session=session,basetime=basetime)
+		self.Meal_Id = get_random(Meal,session=session,basetime=basetime)
