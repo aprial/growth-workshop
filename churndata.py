@@ -13,7 +13,7 @@ Each of these campaigns are represenative of a cohort.
 """
 class Users(Base):
     __tablename__ = 'Users'
-    User_Id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)
     date  = Column(DateTime, default=datetime.datetime.utcnow)
     Campaign_ID = Column(String(40))
     Created_Date  = Column(DateTime, default=datetime.datetime.utcnow)
@@ -39,17 +39,18 @@ class Meal(Base):
     __tablename__ = 'Meal'
     Type = Column(String(40))
     date  = Column(DateTime, default=datetime.datetime.utcnow)
-    Meal_Id = Column(Integer,primary_key = True)
+    id = Column(Integer,primary_key = True)
     price = Column(Integer)
     def forge(self,session,basetime,date,**kwargs):
         self.Type = random.choice(['japanese','chinese','french','german','italian','mexican','vietnamese'])
         self.price = random.randint(5, 15)
-	@classmethod
-	def ntimes(self, i, time):
-		return 1*pow(1.001, i)
-
-	variance = ntimes
-
+        
+	period = DAY
+    @classmethod
+    def ntimes(self, i, time):
+    	return 1*pow(1.005, i)
+    
+    variance = ntimes
 
 """
 Events on a site are for likes/favorites and buying.
@@ -57,7 +58,7 @@ Events on a site are for likes/favorites and buying.
 class Event(Base):
 
     __tablename__ = 'Event'
-    Event_Id = Column(Integer,primary_key = True)
+    id = Column(Integer,primary_key = True)
     date  = Column(DateTime, default=datetime.datetime.utcnow)
     User_Id= Column(Integer, ForeignKey("Users.id"), nullable=False)
     Meal_Id = Column(Integer,ForeignKey("Meal.id"),nullable = False)
@@ -68,6 +69,13 @@ class Event(Base):
          self.Type = random.choice(['like','bought'])
          self.User_Id = get_random(Users,session=session,basetime=basetime)
          self.Meal_Id = get_random(Meal,session=session,basetime=basetime)
+         
+    period = DAY
+    @classmethod
+    def ntimes(self, i, time):
+    	return 1*pow(1.001, i)
+    
+    variance = ntimes
 
 
 def main(forjar):
