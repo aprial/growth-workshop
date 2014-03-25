@@ -29,8 +29,10 @@ events = Table('Event',metadata,autoload = True)
 
 
 class PriorsUpdater(object):
-	def __init__(self,user,table,conn,target_column,priors):
+	def __init__(self,user,table,conn,target_column,priors,new_value):
 		self.user = user
+		self.new_value = new_value
+		self.table = table
 		self.priors = priors
         self.select = select([table]).where(table.c.User_Id == self.user.id)
         self.results = conn.execute(self.select)
@@ -39,6 +41,7 @@ class PriorsUpdater(object):
              should_gen = bernoulli.rvs(self.priors[result[target_column],size=1)
              if should_gen >= 1:
              	print 'Updating ' + str(result) + ' for user ' + str(self.user)
+                table.update().where(users.c.id == self.user.id).values(target_column = new_value)
 
 
 
