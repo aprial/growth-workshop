@@ -1,4 +1,9 @@
 from forjar import *
+from scipy.stats import bernoulli
+
+
+
+
 """
 Generates a user table for cohort analysis and churn prediction.
 A few things of note below:
@@ -74,9 +79,29 @@ class Event(Base):
 
 
     def forge(self,session,basetime,date,**kwargs):
-         self.Type = random.choice(['like','bought','share'])
+         self.Type = random.choice(['like','bought','share','nothing'])
          self.User_Id = get_random(Users,session=session,basetime=basetime)
-         print str(session.query(Users).filter_by(id = self.User_Id).all()[0].Campaign_ID)
+         user = session.query(Users).filter_by(id = self.User_Id).all()[0]
+         if user.Campaign_ID == 'TW':
+             should_gen = bernoulli.rvs(0.7,size=1)
+             if should_gen >= 1:
+                self.Type = 'nothing'
+
+         elif user.Campaign_ID == 'RE':
+             should_gen = bernoulli.rvs(0.6,size=1)
+             if should_gen >= 1:
+                self.Type = 'share'
+
+         elif user.Campaign_ID == 'FB':
+             should_gen = bernoulli.rvs(0.6,size=1)
+             if should_gen >= 1:
+                 self.Type = 'like'
+         elif user.Campaign_ID == 'PI':
+             should_gen = bernoulli.rvs(0.7,size=1)
+             if should_gen >= 1:
+                self.Type = 'bought'
+         
+         print 'Campaign ' + user.Campaign_ID + ' with ' + self.Type
          self.Meal_Id = get_random(Meal,session=session,basetime=basetime)
          
     period = DAY
