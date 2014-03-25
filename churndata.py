@@ -42,7 +42,15 @@ class Meal(Base):
     id = Column(Integer,primary_key = True)
     price = Column(Integer)
     def forge(self,session,basetime,date,**kwargs):
-        self.Type = random.choice(['japanese','chinese','french','german','italian','mexican','vietnamese'])
+        self.Type = random.choice([
+            'japanese',
+            'chinese',
+            'french',
+            'german',
+            'italian',
+            'mexican',
+            'vietnamese'
+        ])
         self.price = random.randint(5, 15)
         
 	period = DAY
@@ -66,7 +74,7 @@ class Event(Base):
 
 
     def forge(self,session,basetime,date,**kwargs):
-         self.Type = random.choice(['like','bought'])
+         self.Type = random.choice(['like','bought','share'])
          self.User_Id = get_random(Users,session=session,basetime=basetime)
          self.Meal_Id = get_random(Meal,session=session,basetime=basetime)
          
