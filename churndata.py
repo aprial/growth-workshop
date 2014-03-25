@@ -76,6 +76,7 @@ class Event(Base):
     def forge(self,session,basetime,date,**kwargs):
          self.Type = random.choice(['like','bought','share'])
          self.User_Id = get_random(Users,session=session,basetime=basetime)
+         print str(session.query(Users).filter_by(id = self.User_Id).all()[0].Campaign_ID)
          self.Meal_Id = get_random(Meal,session=session,basetime=basetime)
          
     period = DAY
