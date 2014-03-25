@@ -59,8 +59,8 @@ class Event(Base):
     __tablename__ = 'Event'
     Event_Id = Column(Integer,primary_key = True)
     date  = Column(DateTime, default=datetime.datetime.utcnow)
-    User_Id= Column(Integer, ForeignKey("Users.User_Id"), nullable=False)
-    Meal_Id = Column(Integer,ForeignKey("Meal.Meal_Id"),nullable = False)
+    User_Id= Column(Integer, ForeignKey("Users.id"), nullable=False)
+    Meal_Id = Column(Integer,ForeignKey("Meal.id"),nullable = False)
     Type = Column(String(40))
 
 
