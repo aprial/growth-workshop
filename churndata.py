@@ -15,6 +15,13 @@ Campaigns are from social networks. This is primarily meant to measure click dat
     PI: pinterst
 
 Each of these campaigns are represenative of a cohort.
+
+
+From here we would need to do cohort analysis, calculate ELV of user, do cost benefit analysis
+
+on matrices. 
+
+
 """
 class Users(Base):
     __tablename__ = 'Users'
