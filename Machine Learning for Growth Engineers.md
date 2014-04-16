@@ -111,3 +111,33 @@ Their behavior allows us to optimize for business objective such as ad spend (wh
 and perhaps, what users are likely to share. We can use the sum of these underlying insights to drive profits, increase conversions, and make more educated, 
 
 data driven decision in our day to day coding and product management decisions.
+
+
+Next we will want to dive in to the tendencies and bias of different users. We can use this to target ad spend at each social network and figure out how to coordinate social media efforts with respect to certain goals.
+
+Let us plot user vs action now. As defined earlier, users can take certain actions on the site:
+
+             Buying
+            Liking
+            Sharing
+
+
+            applicable to different kinds of food items:
+
+
+            japanese
+            chinese
+            french
+            german
+            italian
+            mexican,
+            vietnamese
+
+
+
+Right now, we want to look at per site actions in aggregate. Let's now build a series of histograms that show per social network actions.
+
+
+First, we need to figure out how to get per user events and their aggregate counts. This is going to involve some database table joins.
+
+A common join that is often used is a natural join.
