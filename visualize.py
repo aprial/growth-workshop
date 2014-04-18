@@ -1,6 +1,9 @@
 import matplotlib.pyplot as plt
 from sqlalchemy import *
+from sqlalchemy import sessionmaker
+
 import numpy as np
+import pandas.DataFrame
 
 db = create_engine('sqlite:///forjar.db')
 
@@ -28,12 +31,10 @@ session = Session()
 q = session.query(users)
 
 
-for row in rs:
-    campaigns.append(campaign_to_num[row.Campaign_ID])
-
 
 
 x = np.array(campaigns)
+
 
 n, bins, patches = plt.hist(x,bins=4,label=['TW', 'RE', 'FB','PI'])
 
