@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from churndata import *
 from pandas import DataFrame
 from util import query_to_df
-from util import campaign_to_num,event_to_num,transform_column,hist_and_show
+from util import campaign_to_num,event_to_num,transform_column,hist_and_show,vectorize
 db = create_engine('sqlite:///forjar.db')
 
 
@@ -20,6 +20,8 @@ session = Session()
 q = session.query(Users.Campaign_ID,Event.Type)
 d = query_to_df(session,session.query(Users.Campaign_ID,Event.Type))
 
+
+print vectorize(d,'Event_Type')
 transform_column(d,'Users_Campaign_ID',campaign_to_num.get)
 transform_column(d,'Event_Type',event_to_num.get)
 
