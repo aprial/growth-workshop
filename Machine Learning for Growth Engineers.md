@@ -141,3 +141,25 @@ Right now, we want to look at per site actions in aggregate. Let's now build a s
 First, we need to figure out how to get per user events and their aggregate counts. This is going to involve some database table joins.
 
 A common join that is often used is a natural join.
+
+
+
+###Lift Curves
+
+Lift curves are a predictive model for identifying the percent gained over a baseline model. This is used in evaluating models.
+
+First a baseline is established, such that an empirical study is done with a previously defined model vs a newer model that is being validated.
+
+The first concept we need to understand to work with lift curves is the idea of a response model. This is picking a field (column) that we will use
+
+as a response metric. A positive response with respect to our model could be likes, shares or buying. What we will want to do is optimize for one of these
+
+and try to see what happens when we run certain campaigns, iterate, and see if a given campaign did worse or better.
+
+From here, we will simulate 2 different campaigns. We will use our first database as a baseline and from there, measure improvement in certain metrics
+ with another dataset. This next data set will be used to represent another campaign.
+
+ Our base line metric will be profit. Let us assume that a buy action is represented by $1. We can then use this as a basseline to determine gain of profits
+ relative to certain campaigns.
+
+ From here, we will visualize a lift curve and see how to interpret the results.

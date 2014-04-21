@@ -38,6 +38,26 @@ def hist_and_show(df,column_name):
     plt.show()
 
 
+def to_percentage(df,column_name):
+    """
+     Given a numeric field column name, converts each field
+     to a percentage that a given element in a row contributed to the overall sum of a column
+    """
+    column_sum = df[column_name].sum()
+    df[column_name] = df[column_name] / column_sum
+
+
+
+def df_column_wise_norm(df):
+     """
+     Column wise norm. Calculates the norm of each column.
+     The formula is:
+           df - df.mean / df.max - df.min
+     """
+     df_norm = (df - df.mean()) / (df.max() - df.min())
+     return df_norm
+
+
 def query_to_df(session,query):
     """
     Convert an sql query to a pandas data frame
