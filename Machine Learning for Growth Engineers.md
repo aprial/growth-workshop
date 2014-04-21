@@ -185,3 +185,33 @@ A few things of note here:
       Now, using the a different data set we will get in to calculating life time value for users. This will involve a bit of data aggregation (purchases by user)
       as well as identifying things like most profitable food category, and ranking users by their life time value. We will then use this to figure out who our most profitable demographic is.
 
+
+      Life time value is usually calculated as:
+
+             Order Value * Num Repeat Sales * Average Retention Time
+
+      Realistically, order value is not static. We want to calculate an average.
+
+
+      We can do this very easily, for simplicity, the price of each food category is $1. Therefore, our average price is:
+
+            $1 * num categories.
+
+       If the food prices were different, it would be:
+
+           sum(i,n) = price(i) / n
+
+       From here, we could calculate the number of repeat sales, by looking at the average number of times a particular user
+
+       will buy things within a month.
+
+       To evaluate the life time value of a particular kind of user, let us calculate the average number of times a user
+
+       from  a particular social network buys per month.
+
+       To calculate retention time, we calculate the average number of months a user will buy a meal over the course of a year.
+
+
+       
+
+
