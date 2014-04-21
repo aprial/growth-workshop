@@ -143,6 +143,13 @@ First, we need to figure out how to get per user events and their aggregate coun
 A common join that is often used is a natural join.
 
 
+###Most Profitable Users
+
+Let's now home in on profits. We all want to know who our most profitable users are. Let us do this by homing in on the buy action and grouping these by campaign.
+
+
+
+
 
 ###Lift Curves
 
@@ -163,3 +170,4 @@ From here, we will simulate 2 different campaigns. We will use our first databas
  relative to certain campaigns.
 
  From here, we will visualize a lift curve and see how to interpret the results.
+
