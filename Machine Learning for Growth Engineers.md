@@ -177,3 +177,11 @@ A few things of note here:
 
      The campaign-3.db will be after a campaign2-db. This will be assumed to be users taking action within the last month. Anything that isn't bought (what we are optimizing for)
      will be treated as a negative action. We till then see how many more users bought food vs not over the past month.
+
+
+
+###Life time value:
+
+      Now, using the a different data set we will get in to calculating life time value for users. This will involve a bit of data aggregation (purchases by user)
+      as well as identifying things like most profitable food category, and ranking users by their life time value. We will then use this to figure out who our most profitable demographic is.
+
