@@ -171,3 +171,9 @@ From here, we will simulate 2 different campaigns. We will use our first databas
 
  From here, we will visualize a lift curve and see how to interpret the results.
 
+
+
+A few things of note here:
+
+     The campaign-3.db will be after a campaign2-db. This will be assumed to be users taking action within the last month. Anything that isn't bought (what we are optimizing for)
+     will be treated as a negative action. We till then see how many more users bought food vs not over the past month.
