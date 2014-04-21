@@ -48,3 +48,25 @@ for campaign_id in campaign_to_num.keys():
     print 'id was ' + campaign_id + ' and percent of customers bought was ' + str(rows)
 
 
+
+"""
+Calculate the lift curves
+
+We will take our first data set and use it as a baseline.
+
+We will assume that each user gained was the result of a marketing campaign on each social network.
+
+Our goal here is to calculate the lift curve such that when we run a second campaign, we can see
+
+either improvements or not with respect to the delta. The positive response rate will be marked
+
+by the number of buy actions within the dataset, from there we can calculate a conversion rate.
+
+After wards, we will run similar calculations to visualize a lift curve.
+
+"""
+
+
+
+
+

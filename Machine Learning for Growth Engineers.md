@@ -212,6 +212,6 @@ A few things of note here:
        To calculate retention time, we calculate the average number of months a user will buy a meal over the course of a year.
 
 
-       
+
 
 
