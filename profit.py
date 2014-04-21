@@ -20,6 +20,7 @@ We only want events and users such that the user bought an item.
 We count bought as $1 of revenue for simplicity.
 """
 q = session.query(Users.Campaign_ID,Event.Type).filter(Event.Type == 'bought')
+
 """
 Convert to pandas
 """

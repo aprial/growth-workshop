@@ -22,6 +22,9 @@ event_to_num = {
 }
 
 
+def num_rows(df):
+    return len(df.index)
+
 def transform_column(df,column_name,fn):
     """
     Transforms a column with the given function
