@@ -29,7 +29,7 @@ def transform_column(df,column_name,fn):
     """
     Transforms a column with the given function
     """
-    df[column_name] = df[column_name].apply(fn)
+    df[column_name] = df[column_name].apply(fn).astype('float')
 
 
 def hist_and_show(df,column_name):
@@ -70,6 +70,9 @@ def query_to_df(session,query):
     d.columns = result.keys()
     return d
 
+
+
+
 def vectorize(df,label_column):
     """
     Vectorize input features wrt a label column.
@@ -78,10 +81,16 @@ def vectorize(df,label_column):
     for feature_name in df.columns.values:
         if feature_name != label_column:
             feature_names.append(label_column)
-    inputs = df[feature_name].to_dict()
-    input_labels = df[label_column].to_dict()
-    vectorizer = DictVectorizer()
-    ret = vectorizer.fit_transform(inputs,input_labels)
-    return ret
+    inputs = df[feature_names].values
+    return inputs
+
+def vectorize_label(df,label_column,num_labels,target_outcome):
+    """
+    Vectorize input features wrt a label column.
+    """
+    inputs = df[label_column].apply(lambda x: x== target_outcome).values
+
+    return inputs
+
 
 

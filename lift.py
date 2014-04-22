@@ -2,14 +2,15 @@ from __future__ import division
 import matplotlib.pyplot as plt
 from sqlalchemy import *
 import numpy as np
+from sklearn.linear_model import LogisticRegression
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import func
 from churndata import *
 from pandas import DataFrame
 from pandas.core.groupby import GroupBy
 from util import query_to_df
-from util import campaign_to_num,event_to_num,transform_column,hist_and_show,vectorize,to_percentage,num_rows
-db = create_engine('sqlite:///forjar.db')
+from util import campaign_to_num,event_to_num,transform_column,hist_and_show,vectorize,to_percentage,num_rows,vectorize_label
+db = create_engine('sqlite:///campaign-1.db')
 
 
 metadata = MetaData(db)
@@ -65,6 +66,33 @@ by the number of buy actions within the dataset, from there we can calculate a c
 After wards, we will run similar calculations to visualize a lift curve.
 
 """
+
+
+
+"""
+We only want events and users such that the user bought an item.
+We count bought as $1 of revenue for simplicity.
+"""
+
+q = session.query(Users.Campaign_ID,Event.Type)
+
+"""
+Print out the counts by name.
+This is a way of showing how to aggregate by campaign ids.
+"""
+df = query_to_df(session,q)
+
+
+transform_column(df,'Event_Type',event_to_num.get)
+transform_column(df,'Users_Campaign_ID',campaign_to_num.get)
+print df
+
+data_set = vectorize(df,'Event_Type')
+labels =  vectorize_label(df,'Event_Type',2,4)
+print labels
+logistic = LogisticRegression()
+logistic.fit_transform(data_set,labels.transpose())
+
 
 
 
