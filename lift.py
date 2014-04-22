@@ -5,6 +5,8 @@ import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import func
+from sklearn.metrics import confusion_matrix
+from sklearn.cross_validation import train_test_split
 from churndata import *
 from pandas import DataFrame
 from pandas.core.groupby import GroupBy
@@ -74,7 +76,7 @@ We only want events and users such that the user bought an item.
 We count bought as $1 of revenue for simplicity.
 """
 
-q = session.query(Users.Campaign_ID,Meal.Type,Event.Type).limit(100)
+q = session.query(Users.Campaign_ID,Meal.Type,Event.Type).limit(300)
 
 """
 Print out the counts by name.
@@ -88,13 +90,25 @@ transform_column(df,'Event_Type',event_to_num.get)
 transform_column(df,'Users_Campaign_ID',campaign_to_num.get)
 transform_column(df,'Meal_Type',meal_to_num.get)
 print df
+"""
+Prediction scores.
 
+"""
 data_set = vectorize(df,'Event_Type')
 labels =  vectorize_label(df,'Event_Type',2,4)
-print labels
+
+
+# Split the data into a training set and a test set
+X_train, X_test, y_train, y_test = train_test_split(data_set, labels, random_state=0)
+
 logistic = LogisticRegression()
-logistic.fit_transform(data_set,labels.transpose())
-print logistic.predict(data_set)
+logistic.fit_transform(X_train,y_train)
+prediction = logistic.predict(X_test)
+
+cm = confusion_matrix(y_test, prediction)
+print cm
+
+
 
 
 
