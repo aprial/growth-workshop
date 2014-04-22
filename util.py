@@ -21,6 +21,16 @@ event_to_num = {
    'bought' : 4
 }
 
+meal_to_num = {
+   'japanese':  1,
+   'chinese' : 2,
+   'french' : 3,
+    'german' : 4,
+    'italian' : 5,
+    'mexican' : 6,
+    'vietnamese' : 7
+}
+
 
 def num_rows(df):
     return len(df.index)

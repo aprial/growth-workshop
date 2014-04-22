@@ -9,7 +9,7 @@ from churndata import *
 from pandas import DataFrame
 from pandas.core.groupby import GroupBy
 from util import query_to_df
-from util import campaign_to_num,event_to_num,transform_column,hist_and_show,vectorize,to_percentage,num_rows,vectorize_label
+from util import campaign_to_num,event_to_num,transform_column,hist_and_show,vectorize,to_percentage,num_rows,vectorize_label,meal_to_num
 db = create_engine('sqlite:///campaign-1.db')
 
 
@@ -74,7 +74,7 @@ We only want events and users such that the user bought an item.
 We count bought as $1 of revenue for simplicity.
 """
 
-q = session.query(Users.Campaign_ID,Event.Type)
+q = session.query(Users.Campaign_ID,Meal.Type,Event.Type).limit(100)
 
 """
 Print out the counts by name.
@@ -82,9 +82,11 @@ This is a way of showing how to aggregate by campaign ids.
 """
 df = query_to_df(session,q)
 
+print df
 
 transform_column(df,'Event_Type',event_to_num.get)
 transform_column(df,'Users_Campaign_ID',campaign_to_num.get)
+transform_column(df,'Meal_Type',meal_to_num.get)
 print df
 
 data_set = vectorize(df,'Event_Type')
@@ -92,6 +94,7 @@ labels =  vectorize_label(df,'Event_Type',2,4)
 print labels
 logistic = LogisticRegression()
 logistic.fit_transform(data_set,labels.transpose())
+print logistic.predict(data_set)
 
 
 
