@@ -83,6 +83,8 @@ def query_to_df(session,query):
 
 
 
+
+
 def vectorize(df,label_column):
     """
     Vectorize input features wrt a label column.
