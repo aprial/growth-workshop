@@ -28,7 +28,7 @@ hist_and_show(user_df,'Users_Campaign_ID')
 
 
 
-q = session.query(Users.Campaign_ID,Event.Type,Users.id,Event.User_Id)
+q = session.query(Users.Campaign_ID,Event.Type,Users.id,Event.User_Id).filter(Event.Type == 'bought')
 d = query_to_df(session,q)
 print d.columns
 
@@ -37,7 +37,7 @@ transform_column(d,'Users_Campaign_ID',campaign_to_num.get)
 Show the counts for the event types
 """
 transform_column(d,'Event_Type',event_to_num.get)
-hist_and_show(d,'Event_Type')
+hist_and_show(d,'Users_Campaign_ID')
 
 
 

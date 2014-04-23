@@ -8,6 +8,7 @@ from sqlalchemy import func
 from sklearn.metrics import confusion_matrix
 from sklearn.cross_validation import train_test_split
 from churndata import *
+from sklearn.preprocessing import StandardScaler
 from pandas import DataFrame
 from pandas.core.groupby import GroupBy
 from util import query_to_df
@@ -101,15 +102,21 @@ labels =  vectorize_label(df,'Event_Type',2,4)
 # Split the data into a training set and a test set
 X_train, X_test, y_train, y_test = train_test_split(data_set, labels, random_state=0)
 
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.fit_transform(X_test)
+
 logistic = LogisticRegression()
-logistic.fit_transform(X_train,y_train)
-prediction = logistic.predict(X_test)
+fit = logistic.fit(X_train,y_train)
+prediction = fit.predict(X_test)
 
 cm = confusion_matrix(y_test, prediction)
 print cm
 
 
-
+"""
+Multiply the results by a cost benefit matrix.
+"""
 
 
 

@@ -32,6 +32,13 @@ meal_to_num = {
 }
 
 
+
+campaign_to_cost = {
+    'TW' : .25,
+    'RE' : .35,
+    'FB' : .45
+    'PI' : .55
+}
 def num_rows(df):
     return len(df.index)
 

@@ -90,21 +90,26 @@ class Event(Base):
          self.User_Id = get_random(Users,session=session,basetime=basetime)
          user = session.query(Users).filter_by(id = self.User_Id).all()[0]
          if user.Campaign_ID == 'TW':
-             should_gen = bernoulli.rvs(0.9,size=1)
+            # should_gen = bernoulli.rvs(0.9,size=1)
+             should_gen = 1
+
              if should_gen >= 1:
                 self.Type = 'nothing'
 
          elif user.Campaign_ID == 'RE':
-             should_gen = bernoulli.rvs(0.9,size=1)
+            # should_gen = bernoulli.rvs(0.9,size=1)
+             should_gen = 1
              if should_gen >= 1:
                 self.Type = 'share'
 
          elif user.Campaign_ID == 'FB':
-             should_gen = bernoulli.rvs(0.9,size=1)
+            # should_gen = bernoulli.rvs(0.9,size=1)
+             should_gen = 1
              if should_gen >= 1:
                  self.Type = 'like'
          elif user.Campaign_ID == 'PI':
-             should_gen = bernoulli.rvs(0.9,size=1)
+            # should_gen = bernoulli.rvs(0.9,size=1)
+             should_gen = 1
              if should_gen >= 1:
                 self.Type = 'bought'
          
