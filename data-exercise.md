@@ -12,3 +12,7 @@ Extract transform load - vectorizing Data
 5. Render all possible user campaign and event types to visualize what kinds of users tended to do more kinds of events
 
 6. Leveraging the joint query from before create a data set that can go in to a machine learning algorithm such that the target label is event type.
+
+7. Now scale the input feature data set
+
+8. Split the dataset in to train/test
