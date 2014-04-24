@@ -67,6 +67,28 @@ class Referral(Base):
     variance = ntimes
 
 
+class Visit(Base):
+    """
+    Users visiting the site, we can interpret this as them not doing anything on the site for a given day.
+    """
+    __tablename__ = 'visit'
+    id = Column(Integer,primary_key=True)
+    date  = Column(DateTime, default=datetime.datetime.utcnow)
+    user_id = Column(Integer, ForeignKey("Users.id"), nullable=False)
+
+    def forge(self, session, basetime, date, **kwargs):
+        self.user_id = get_random(Users,session=session,basetime=basetime)
+        referred = session.query(Users).filter_by(id=self.referred_id).all()[0]
+        self.date = referred.date
+
+    period = DAY
+
+    @classmethod
+    def ntimes(self, i, time):
+    	return 1*pow(1.005, i)
+
+    variance = ntimes
+
 """
 Meals are of different types. The idea here would be that 
 different kinds of users may like or buy different kinds of meals on the site.
