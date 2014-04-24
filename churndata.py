@@ -78,8 +78,7 @@ class Visit(Base):
 
     def forge(self, session, basetime, date, **kwargs):
         self.user_id = get_random(Users,session=session,basetime=basetime)
-        referred = session.query(Users).filter_by(id=self.referred_id).all()[0]
-        self.date = referred.date
+        self.date = date
 
     period = DAY
 
@@ -185,6 +184,7 @@ def main(forjar):
     forjar.forge_base(Meal)
     forjar.forge_base(Event)
     forjar.forge_base(Referral)
+    forjar.forge_base(Visit)
     forjar.session.commit()
     forjar.print_results()
 
