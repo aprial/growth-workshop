@@ -41,6 +41,53 @@ class Users(Base):
 
     variance = ntimes
 
+
+class Referral(Base):
+    """
+    Users referring other users
+    """
+    __tablename__ = 'referrals'
+    id = Column(Integer,primary_key=True)
+    date  = Column(DateTime, default=datetime.datetime.utcnow)
+    refer_id = Column(Integer, ForeignKey("Users.id"), nullable=False)
+    referred_id = Column(Integer, ForeignKey("Users.id"), nullable=False)
+
+    def forge(self, session, basetime, date, **kwargs):
+        self.refer_id = get_random(Users,session=session,basetime=basetime)
+        self.referred_id = get_random(Users,session=session,basetime=basetime)
+        referred = session.query(Users).filter_by(id=self.referred_id).all()[0]
+        self.date = referred.date
+
+    period = DAY
+
+    @classmethod
+    def ntimes(self, i, time):
+    	return 1*pow(1.005, i)
+
+    variance = ntimes
+
+
+class Visit(Base):
+    """
+    Users visiting the site, we can interpret this as them not doing anything on the site for a given day.
+    """
+    __tablename__ = 'visit'
+    id = Column(Integer,primary_key=True)
+    date  = Column(DateTime, default=datetime.datetime.utcnow)
+    user_id = Column(Integer, ForeignKey("Users.id"), nullable=False)
+
+    def forge(self, session, basetime, date, **kwargs):
+        self.user_id = get_random(Users,session=session,basetime=basetime)
+        self.date = date
+
+    period = DAY
+
+    @classmethod
+    def ntimes(self, i, time):
+    	return 1*pow(1.005, i)
+
+    variance = ntimes
+
 """
 Meals are of different types. The idea here would be that 
 different kinds of users may like or buy different kinds of meals on the site.
@@ -50,9 +97,10 @@ class Meal(Base):
 
     __tablename__ = 'Meal'
     Type = Column(String(40))
-    date  = Column(DateTime, default=datetime.datetime.utcnow)
+    date = Column(DateTime)
     id = Column(Integer,primary_key = True)
     price = Column(Integer)
+
     def forge(self,session,basetime,date,**kwargs):
         self.Type = random.choice([
             'japanese',
@@ -90,21 +138,26 @@ class Event(Base):
          self.User_Id = get_random(Users,session=session,basetime=basetime)
          user = session.query(Users).filter_by(id = self.User_Id).all()[0]
          if user.Campaign_ID == 'TW':
-             should_gen = bernoulli.rvs(0.9,size=1)
+            # should_gen = bernoulli.rvs(0.9,size=1)
+             should_gen = 1
+
              if should_gen >= 1:
                 self.Type = 'nothing'
 
          elif user.Campaign_ID == 'RE':
-             should_gen = bernoulli.rvs(0.9,size=1)
+            # should_gen = bernoulli.rvs(0.9,size=1)
+             should_gen = 1
              if should_gen >= 1:
                 self.Type = 'share'
 
          elif user.Campaign_ID == 'FB':
-             should_gen = bernoulli.rvs(0.9,size=1)
+            # should_gen = bernoulli.rvs(0.9,size=1)
+             should_gen = 1
              if should_gen >= 1:
                  self.Type = 'like'
          elif user.Campaign_ID == 'PI':
-             should_gen = bernoulli.rvs(0.9,size=1)
+            # should_gen = bernoulli.rvs(0.9,size=1)
+             should_gen = 1
              if should_gen >= 1:
                 self.Type = 'bought'
          
@@ -119,11 +172,19 @@ class Event(Base):
     variance = ntimes
 
 
+"""
+AB Test Table - conversions wrt probability
+
+Visit Data
+"""
+
+
 def main(forjar):
     forjar.forge_base(Users)
     forjar.forge_base(Meal)
     forjar.forge_base(Event)
-
+    forjar.forge_base(Referral)
+    forjar.forge_base(Visit)
     forjar.session.commit()
     forjar.print_results()
 

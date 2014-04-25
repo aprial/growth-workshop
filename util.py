@@ -4,6 +4,7 @@ import numpy as np
 from sqlalchemy.orm import sessionmaker
 from churndata import *
 from pandas import DataFrame
+from time import mktime
 from sklearn.feature_extraction import DictVectorizer
 
 
@@ -32,6 +33,13 @@ meal_to_num = {
 }
 
 
+
+campaign_to_cost = {
+    'TW' : .25,
+    'RE' : .35,
+    'FB' : .45,
+    'PI' : .55
+}
 def num_rows(df):
     return len(df.index)
 
@@ -84,6 +92,14 @@ def query_to_df(session,query):
 
 
 
+
+def to_milliseconds(dt):
+    """
+    Converts the given date time to epoch milliseconds
+    """
+    sec_since_epoch = mktime(dt.timetuple()) + dt.microsecond/1000000.0
+    millis_since_epoch = sec_since_epoch * 1000
+    return millis_since_epoch
 
 def vectorize(df,label_column):
     """
