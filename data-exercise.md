@@ -15,4 +15,4 @@ Extract transform load - vectorizing Data
 
 7. Now scale the input feature data set
 
-8. Split the dataset in to train/test
+8. Generate cohort analysis

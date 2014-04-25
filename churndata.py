@@ -70,6 +70,10 @@ class Referral(Base):
 class Visit(Base):
     """
     Users visiting the site, we can interpret this as them not doing anything on the site for a given day.
+
+
+    Assumes user is logged in.
+
     """
     __tablename__ = 'visit'
     id = Column(Integer,primary_key=True)
@@ -134,7 +138,7 @@ class Event(Base):
 
 
     def forge(self,session,basetime,date,**kwargs):
-         self.Type = random.choice(['like','bought','share','nothing'])
+         self.Type = random.choice(['like','bought','share'])
          self.User_Id = get_random(Users,session=session,basetime=basetime)
          user = session.query(Users).filter_by(id = self.User_Id).all()[0]
          if user.Campaign_ID == 'TW':

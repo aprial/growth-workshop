@@ -9,7 +9,7 @@ from sklearn.metrics import confusion_matrix
 from sklearn.cross_validation import train_test_split
 from churndata import *
 from sklearn.preprocessing import StandardScaler
-from pandas import DataFrame
+from pandas import DataFrame,Series
 from pandas.core.groupby import GroupBy
 from util import query_to_df
 from util import campaign_to_num,event_to_num,transform_column,hist_and_show,vectorize,to_percentage,num_rows,vectorize_label,meal_to_num
@@ -109,13 +109,47 @@ X_test = scaler.fit_transform(X_test)
 logistic = LogisticRegression()
 fit = logistic.fit(X_train,y_train)
 prediction = fit.predict(X_test)
+"""
+Append the probabilities of true (0,1) to the data trame
+"""
+probabilities = fit.predict_proba(X_test)[:0]
+df['probabilities'] = Series(len(X_test), index=df.index)
+
+
+
 
 cm = confusion_matrix(y_test, prediction)
-print cm
+
+
+
+
+print probabilities
 
 
 """
 Multiply the results by a cost benefit matrix.
+
+Grab out probabilities, save out features
+
+Add column churn/not churn (pre recorded) based on order drop off,
+
+Whether they ordered in the last 3 months would be considered churn
+
+
+Need to add columns for features;
+
+logged in last 90 days
+bought in last 30 days
+was_active (shared,liked,..) last 30,60,90
+
+Possibly add: mean delivery time for each user (add variance)
+
+
+For the final list, it's a moving threshold for each instance.
+
+
+
+
 """
 
 
