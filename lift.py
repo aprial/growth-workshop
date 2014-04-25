@@ -12,7 +12,7 @@ from sklearn.preprocessing import StandardScaler
 from pandas import DataFrame,Series
 from pandas.core.groupby import GroupBy
 from util import query_to_df
-from util import campaign_to_num,event_to_num,transform_column,hist_and_show,vectorize,to_percentage,num_rows,vectorize_label,meal_to_num
+from util import campaign_to_num,event_to_num,transform_column,hist_and_show,vectorize,to_percentage,num_rows,vectorize_label,meal_to_num,num_days_apart
 db = create_engine('sqlite:///campaign-1.db')
 
 
@@ -151,6 +151,11 @@ For the final list, it's a moving threshold for each instance.
 
 
 """
+
+
+
+
+
 
 
 

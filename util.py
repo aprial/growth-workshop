@@ -110,6 +110,8 @@ def query_to_df(session,query):
     return d
 
 
+def num_days_apart(first,second):
+     return first - second.days
 
 
 
@@ -179,6 +181,7 @@ def confusion_matrices_for_df(df,probability_column):
         num_below = num_above - rows
         confusion_matrices_ret.append(confusion_matrix_for_example(num_above,num_below,rows))
     return confusion_matrices_ret
+
 
 
 
