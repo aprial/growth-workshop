@@ -31,10 +31,8 @@ q = session.query(Event).join(Meal,Event.Meal_Id == Meal.id).join(Users).add_ent
 df = query_to_df(session,q)
 
 
-def group_agg(group):
-    return group
 
-df = df[['Meal_price','Event_date','Users_id']].groupby(['Users_id',df.Event_date.map(lambda x: (x.year,x.month))]).aggregate(np.mean)
+df = df[['Meal_price','Event_date','Users_id']].groupby(['Users_id',df.Event_date.map(lambda x: (x.year,x.month)),df.Users_date.map(lambda x: (x.year,x.month))]).aggregate(np.mean)
 
 
 print df
