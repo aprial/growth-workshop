@@ -31,19 +31,21 @@ def most_recent_actions():
      """
      Returns the most recent events for a user, primarily used in featurizing
      """
-     events = session.query(Users).join(Event).add_entity(Event).group_by(Users.id).order_by(Event.date.desc())
+     events = session.query(Users).join(Event).add_entity(Event).group_by(Users.id).order_by(Event.date.desc()).subquery()
+
      return query_to_df(session, events)
 
 
-def user_visited_in_last_90_days():
+def user_visited_in_last_k_days(threshold):
     now = datetime.utcnow()
-    ninety_days = now - timedelta(days=90)
+    days = now - timedelta(days=threshold)
     """
     Only grab the logins that occurred in the last 90 days
     """
-    most_recent_user_visits = session.query(Users).join(Visit,Users.id == Visit.user_id).group_by(Users.id).order_by(Visit.date.desc()).add_entity(Visit).filter(Visit.date < ninety_days)
-    print query_to_df(session,most_recent_user_visits)
+    most_recent_user_visits = session.query(Users.id,Visit.date).join(Visit,Users.id == Visit.user_id).order_by(Visit.date.desc()).group_by(Users.id)
 
+    df = query_to_df(session,most_recent_user_visits)
+    df = df.sort('Users_id')
+    return df
+print user_visited_in_last_k_days(90)
 
-
-print user_visited_in_last_90_days()
