@@ -2,11 +2,12 @@ from util import query_to_df
 from churndata import *
 from sqlalchemy import *
 import numpy as np
+from datetime import datetime,timedelta
 from sklearn.linear_model import LogisticRegression
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import func
 
-db = create_engine('sqlite:///campaign-1.db')
+db = create_engine('sqlite:///forjar.db')
 
 
 metadata = MetaData(db)
@@ -34,3 +35,15 @@ def most_recent_actions():
      return query_to_df(session, events)
 
 
+def user_visited_in_last_90_days():
+    now = datetime.utcnow()
+    ninety_days = now - timedelta(days=90)
+    """
+    Only grab the logins that occurred in the last 90 days
+    """
+    most_recent_user_visits = session.query(Users).join(Visit,Users.id == Visit.user_id).group_by(Users.id).order_by(Visit.date.desc()).add_entity(Visit).filter(Visit.date < ninety_days)
+    print query_to_df(session,most_recent_user_visits)
+
+
+
+print user_visited_in_last_90_days()
