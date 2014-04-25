@@ -46,6 +46,9 @@ def user_visited_in_last_k_days(threshold):
 
     df = query_to_df(session,most_recent_user_visits)
     df = df.sort('Users_id')
+    df['churned'] = df['visit_date'].apply(lambda x : x < days)
     return df
+
+
 print user_visited_in_last_k_days(90)
 

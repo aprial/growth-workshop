@@ -60,17 +60,22 @@ We only want events and users such that the user bought an item.
 We count bought as $1 of revenue for simplicity.
 """
 
-q = session.query(Users.Campaign_ID,Meal.Type,Event.Type)
+q = session.query(Users.Campaign_ID).join(Event).join(Meal).add_entity(Meal).add_entity(Event)
 
 """
-Print out the counts by name.
+Print out the counts by name.`
 This is a way of showing how to aggregate by campaign ids.
 """
 df = query_to_df(session,q)
 
+def binarize(x):
+    print x
+    ret = int(x == 'bought')
+    return ret
+
+df['Event_Type'] = df['Event_Type'].apply(binarize)
 print df
 
-transform_column(df,'Event_Type',event_to_num.get)
 transform_column(df,'Users_Campaign_ID',campaign_to_num.get)
 transform_column(df,'Meal_Type',meal_to_num.get)
 print df
@@ -79,7 +84,7 @@ Prediction scores.
 
 """
 data_set = vectorize(df,'Event_Type')
-labels =  vectorize_label(df,'Event_Type',2,4)
+labels =  vectorize_label(df,'Event_Type',2,1)
 
 
 # Split the data into a training set and a test set
@@ -96,44 +101,11 @@ prediction = fit.predict(X_test)
 Append the probabilities of true (0,1) to the data trame
 """
 probabilities = fit.predict_proba(X_test)[:0]
-df['probabilities'] = Series(len(X_test), index=df.index)
-
-
-
 
 cm = confusion_matrix(y_test, prediction)
 
 
-
-
-print probabilities
-
-
-"""
-Multiply the results by a cost benefit matrix.
-
-Grab out probabilities, save out features
-
-Add column churn/not churn (pre recorded) based on order drop off,
-
-Whether they ordered in the last 3 months would be considered churn
-
-
-Need to add columns for features;
-
-logged in last 90 days
-bought in last 30 days
-was_active (shared,liked,..) last 30,60,90
-
-Possibly add: mean delivery time for each user (add variance)
-
-
-For the final list, it's a moving threshold for each instance.
-
-
-
-
-"""
+print cm
 
 
 
