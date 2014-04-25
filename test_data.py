@@ -26,21 +26,25 @@ Session = sessionmaker(bind=db)
 
 session = Session()
 
-q = session.query(Event).join(Meal,Event.Meal_Id == Meal.id).join(Users).add_entity(Meal).add_entity(Users)
+q = session.query(Event).join(Meal,Event.Meal_Id == Meal.id).join(Users).add_entity(Meal).add_entity(Users).filter(Event.Type == 'bought')
 
 df = query_to_df(session,q)
 
-print df.columns
 
-df['Event_date'] = pd.to_datetime(df['Event_date'])
-df = df.set_index(df.Event_date)
+def group_agg(group):
+    return group
 
-df = df['Users_id'].groupby(df['Event_date'].map(lambda x : (x.month,x.year))cd).value_counts()
-
-
+df = df[['Meal_price','Event_date','Users_id']].groupby(['Users_id',df.Event_date.map(lambda x: (x.year,x.month))]).aggregate(np.mean)
 
 
 print df
+
+#print df.columns
+
+#df['Event_date'] = pd.to_datetime(df['Event_date'])
+
+#print df.Users_id.groupby(df.Event_date.map(lambda x: (x.year,x.month))).value_counts()
+
 
 
 
