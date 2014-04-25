@@ -12,7 +12,7 @@ from sklearn.preprocessing import StandardScaler
 from pandas import DataFrame,Series
 from pandas.core.groupby import GroupBy
 from util import query_to_df
-from util import campaign_to_num,event_to_num,transform_column,hist_and_show,vectorize,to_percentage,num_rows,vectorize_label,meal_to_num,num_days_apart
+from util import *
 db = create_engine('sqlite:///campaign-1.db')
 
 
@@ -109,21 +109,31 @@ X_test = scaler.fit_transform(X_test)
 logistic = LogisticRegression()
 fit = logistic.fit(X_train,y_train)
 prediction = fit.predict(X_test)
+
 """
 Append the probabilities of true (0,1) to the data trame
 """
-probabilities = fit.predict_proba(X_test)[:0]
+probabilities = np.array([prob[0] for prob in fit.predict_proba(X_test)])
+
+#print probabilities
 df['probabilities'] = Series(len(X_test), index=df.index)
 
+indicies = np.argsort(probabilities)[::1]
+
+
+for idx in xrange(len(indicies)): 
+    pred_true = indicies[:idx]
+    ctr = np.arange(indicies.shape[0])
+    mask = np.in1d(ctr, pred_true)
+    masked_prediction =  mask.astype(float)
+    cm = confusion_matrix(y_test, masked_prediction)
+    print cm
 
 
 
-cm = confusion_matrix(y_test, prediction)
 
 
 
-
-print probabilities
 
 
 """
