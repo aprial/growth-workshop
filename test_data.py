@@ -12,6 +12,9 @@ from sklearn.preprocessing import StandardScaler
 from pandas import DataFrame
 from pandas.core.groupby import GroupBy
 from util import query_to_df
+import pandas as pd
+
+
 from util import campaign_to_num,event_to_num,transform_column,hist_and_show,vectorize,to_percentage,num_rows,vectorize_label,meal_to_num,to_milliseconds
 db = create_engine('sqlite:///forjar.db')
 
@@ -23,22 +26,21 @@ Session = sessionmaker(bind=db)
 
 session = Session()
 
-q = session.query(Users,Referral)
+q = session.query(Event).join(Meal,Event.Meal_Id == Meal.id).join(Users).add_entity(Meal).add_entity(Users)
 
 df = query_to_df(session,q)
 
-transform_column(df,'Users_Campaign_ID',campaign_to_num.get)
-df['Users_date'] = df['Users_date'].apply(to_milliseconds)
-x = df['Users_date']
-y = df['Users_Campaign_ID']
+print df.columns
 
-print x
+df['Event_date'] = pd.to_datetime(df['Event_date'])
+df = df.set_index(df.Event_date)
 
-df.plot(x='Users_date',y='Users_Campaign_ID',kind='scatter')
-
-plt.show()
+df = df['Users_id'].groupby(df['Event_date'].map(lambda x : (x.month,x.year))cd).value_counts()
 
 
+
+
+print df
 
 
 
