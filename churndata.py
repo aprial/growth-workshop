@@ -37,7 +37,7 @@ class Users(Base):
     period = DAY
     @classmethod
     def ntimes(self, i, time):
-        return 1*pow(1.005, i)
+        return 5*pow(1.005, i)
 
     variance = ntimes
 
@@ -62,7 +62,7 @@ class Referral(Base):
 
     @classmethod
     def ntimes(self, i, time):
-    	return 1*pow(1.005, i)
+    	return 5*pow(1.005, i)
 
     variance = ntimes
 
@@ -88,7 +88,7 @@ class Visit(Base):
 
     @classmethod
     def ntimes(self, i, time):
-    	return 1*pow(1.005, i)
+    	return 5*pow(1.005, i)
 
     variance = ntimes
 
@@ -120,7 +120,7 @@ class Meal(Base):
 	period = DAY
     @classmethod
     def ntimes(self, i, time):
-    	return 1*pow(1.005, i)
+    	return 5*pow(1.005, i)
     
     variance = ntimes
 
@@ -171,7 +171,7 @@ class Event(Base):
     period = DAY
     @classmethod
     def ntimes(self, i, time):
-    	return 1*pow(1.001, i)
+    	return 5*pow(1.001, i)
     
     variance = ntimes
 

@@ -3,6 +3,7 @@ from sqlalchemy import *
 import numpy as np
 from sqlalchemy.orm import sessionmaker
 from churndata import *
+from datetime import datetime,timedelta
 from pandas import DataFrame
 from time import mktime
 from sklearn.feature_extraction import DictVectorizer
@@ -43,6 +44,12 @@ campaign_to_cost = {
     'PI' : .55
 }
 
+
+
+def occurred_in_last_k_days(datetime,k):
+     now = datetime.now()
+     days = now - timedelta(days=k)
+     return datetime >= days
 
 
 def expected_value(cf,campaign,avg_price):
@@ -137,8 +144,9 @@ def vectorize(df,label_column):
     feature_names = []
     for feature_name in df.columns.values:
         if feature_name != label_column:
-            feature_names.append(label_column)
-    inputs = df[feature_names].values
+            if label_column not in feature_names:
+                feature_names.append(label_column)
+    inputs = df[feature_names].index
     return inputs
 
 def vectorize_label(df,label_column,num_labels,target_outcome):
