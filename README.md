@@ -18,7 +18,9 @@ Introduction to Machine Learning for Growth & Marketing
 
 ### install the workshop materials
 `git clone git://github.com/zipfian/growth-workshop.git`
+
 `cd growth-workshop`
 
 ### run the iPython notebooks
+
 `ipython notebook`
