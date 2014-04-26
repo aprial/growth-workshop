@@ -197,32 +197,6 @@ def profit_curve(classifiers):
 # Plot profit curves
 profit_curve(classifiers)
 
-    
-"""
-Multiply the results by a cost benefit matrix.
-
-Grab out probabilities, save out features
-
-Add column churn/not churn (pre recorded) based on order drop off,
-
-Whether they ordered in the last 3 months would be considered churn
-
-
-Need to add columns for features;
-
-logged in last 90 days
-bought in last 30 days
-was_active (shared,liked,..) last 30,60,90
-
-Possibly add: mean delivery time for each user (add variance)
-
-
-For the final list, it's a moving threshold for each instance.
-
-
-
-
-"""
 
 
 
