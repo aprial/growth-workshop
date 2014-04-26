@@ -1,7 +1,7 @@
-Predicting customer churn with sklearn
+Introduction to Machine Learning for Growth & Marketing
 =====
 
-Code accompanying blog post which can be found [here](http://blog.yhathq.com/posts/predicting-customer-churn-with-sklearn.html)
+
 
 `churn_measurements.py` - implementations of calibration and discrimination measurements
 
