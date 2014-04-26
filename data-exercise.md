@@ -35,10 +35,18 @@ If they aren't buying anything, we should do something about it given the data w
 
 Exercise:
 
-     1. Load data from an sql database such that each you load a join of the users and events. We only want the users who bought something.
+     1.  Goal: Load data from an sql database such that each you load a join of the users and events. We only want the users who bought something.
 
-     2. Load the results in to a pandas data frame
+         Steps:
+              1. Load data via sqlalchemy from the sql lite database forjar.db
+              2. Create a query that contains a join on events and a filter on bought. Look in to sqlalchemy sessions.
 
+
+     2. Load the results of a call to query.all() in to a data frame.
+
+         Steps:
+              1. Create a dataframe with pandas
+              2. Set the columns to the query keys
 
 The goal with this particular exercise is to understand which users are buying things so we can understand what attributes are successful.
 
@@ -50,7 +58,7 @@ Pandas Data Structures - http://pandas.pydata.org/pandas-docs/stable/dsintro.htm
 
 If you are still stuck, here is a solution:
 
-Gist
+https://gist.github.com/agibsonccc/c5f34f6a5d24e041d535
 
 
 Ranking
@@ -66,30 +74,43 @@ but it is a great low hanging fruit for understanding where to begin understandi
 Exercise:
          Create a ranked grouping of the users who bought the most
 
+         Steps:
+                1. Using our previous query, we should be able to also rank the users who bought the most.
+                2.  Again put the data in to a dataframe. RUn your aggregations and group bys via the data frame.
 
-Means and Statistics on our Data
+Resources:
+
+http://docs.sqlalchemy.org/en/rel_0_9/orm/query.html
+
+
+
+Solution:
+https://gist.github.com/agibsonccc/7798e0908ab975a5f376
+
+
+Counts on campaign wise event actions
 ========================================
 
 
-Now we will use Pandas to start doing some exploratory analysis.  Let's take some time to load data from SQLAlchemy in to a data frame.
+Now we will use Pandas to start doing some exploratory analysis.  Let's compute some fairly simple statistics on our data.
 
 Exercise:
 
-      Load the data from sql alchemy in to a pandas data frame
-      Using pandas, calculate the mean number of times each user from each campaign type (facebook,twitter,pinterest,...) trigger a buy event.
-      This will involve some filtering and grouping.
+     Steps:
+           1. Load the data from sql alchemy in to a pandas data frame
+
+           2. Using pandas, calculate the mean number of times each user
+
+           3. Do a dual group by from each campaign type (facebook,twitter,pinterest,...) and each event type
 
 
-Ranking using pandas
-================================
 
-Now we want to find out different kinds of tendencies for users, Each user campaign type may tend to buy certain kinds of food, share more, or even churn more.
+Resources:
 
-We want to understand how to do basic campaign wise cohort analysis (note that this is different from the time based cohort analysis)
+http://wesmckinney.com/blog/?p=125
 
-Exercise:
-
-       For each event type, load the count of the number of times each kind of user (by campaign type) performed certain events
+Solution:
+https://gist.github.com/agibsonccc/f5538976ed3782cb0441
 
 
 
@@ -98,7 +119,22 @@ Visualizing Data
 
 Pandas has very powerful plotting built in to it alongside matplotlib. Let's generate scatterplots for all of the various user campaign to event types.
 
+Pandas has a lot of built in tools for data vis. Underneath it uses matplot lib. One key thing of note here is that pandas will not actually render your plots for you.
+
+To render plots after a call to something like dataframe.hist(), do the following:
+
+     import matplotlib.pyplot as plt
+     plt.show()
+
 This will allow us to see correlations in events all at once.
+
+Steps:
+       1. Load the data and do a join on: (Users.Campaign_ID,Event.Type,Users.id,Event.User_Id
+       2. If you have more than these columns in your dataframe subset them to this list of columns
+       3. Run an ordinal transform on each column. This is done via a 1 of k encoding mentioned earlier. (Look in to the dict.get function alongside df[columnname].apply()
+       4. Now iterate over every possible combination of columns and plot a scatter plot of each. Render these on the screen all at once.
+          Look in to plt.subplot for this. The end goal here is to transform the string values in each column in the data frame to a numerical representation.
+
 
 
 Machine Learning Data input prep
@@ -113,6 +149,9 @@ Let's build out a data frame such that we have an outcome label. Set the outcome
 
 From here, binarize the event type outcome to be == bought or not.
 
+Solution:
+https://gist.github.com/agibsonccc/9c54fbdc8d6f9b3f53fb
+
 
 Data Normalization
 =====================================================
@@ -121,5 +160,16 @@ Machine Learning algorithms typically work better if you scale the data (squish 
 
 Exercise:
 
-       Transform the data in to numerical (ordinal etc)
+
+       Query for Users.Campaign_ID,Meal.Type,Event.Type and load it in to a dataframe
+
+       Transform the data in to numerical (ordinal etc, think about what we did before)
+
        Split out the feature set columns from the outcome label and normalize the given features.
+
+Resources:
+
+http://scikit-learn.org/stable/modules/preprocessing.html
+
+Solution:
+https://gist.github.com/agibsonccc/ec5062e81a4817cf35d4
